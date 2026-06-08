@@ -1,0 +1,52 @@
+{
+  "oraculo": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0JYEsxupPYOio+u8xHdzSNLQgQoPwFx/qceHQJPy2KzNSCXz3FFyKkXaso4UTorzy8XXDv5WkRC1AlDDVu28ANXlrZqLyjLZ8DdplHig2KSxYV5MXA5TyqMDeCAW5CWi+na5Xwr9IbtuTfCv65YeB3QRgZWjZ4oVxpGVek+4dec0qChNl6pL9KmgI4u5CHHC8d7z6MovK0+eN0aMIT2bWgri29tT9sDCoHEGaab1576+SXK3iDXlLkeehJ/h72lqu3HmSL/B5ZE+pKLVLJogSwwMCTejrfTXf5acj9EOq83wGNLTjHIKr2iMz+SZzFS4vxk6qMgltCXjBZfXalzLnwIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfmgdDET1IKOR2OxLI9KBBzFB97GyrJKipAuwSrMhDn1w93ieoCb7etbYX5/wrUic9xX5LQbUdgyKSRuCnTPAeQ==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  },
+  "ut-charlie": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnMHgvt4L0wtdW4YN1fakOyyJWn03i7wB9QAeVaGqXasnCaAxVdtTQoPP6PDLLhXlYvr2AUwS1InI2ildebiygIPBTnhxsOcgnRhzumYpcDMUlStt7IUfwQB5HEtxgX0CftoR3u7cGgCPkWXnfkfMAwl7anedylzMD34QsOcRj6yH5we15P+Bb+j4iDPbwLmBuoY4UBRQO8rIR1mH6fly+woKtlFy61+Cd5sES44YX1drKA1ECDfWRAV+Ywz1ovPRfnmzmrcAs0v2j3MNvj0ljzMvQrd4DZOKWsPIcYuxpNOZysroBmOjwlPjl9nFrYkdjvEyJ9SCv3EnIZgj/1Fz5wIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE9rrzzYmYbdUQi4EDu9dOI+nQB1D3OTpsPbeM+0KOYbKss8Sm/NVihCX2W4h2c5lBHVF0pfPjaSIs7mJz89XHxA==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  },
+  "ut-november": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5oFeQKRR2Uq7T9htBx/Snv0rhCgG8B0Qu5/MBkwXhhFRAzzZN9jByaXWMgaltBwZC6k0EDKqA9HXczeCO0KLAdqi/C0VXdNdWkvl6IIn6ZK5amEMIew3OlLdqUp2imNzs7rIiyMfOhk6/8r9NtQleuFLuqxsQuGFbdBexkH1XNLDsTiW1aMVV4jRYfATSrp5731x0dlZjb1s4azkrCoBPwvcNWgLdJKGuy6RmsS91MXll4ShY7Ys0qiTFHHNrFkAVosN7DVRo9+SrbBgtGFsfYueC/uYcUQMxIS4Rn5s1y0Lm9v9SFsPygnfEZ51iV+zERxGZLouIqR/fEx0kaZWFwIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHzfroNwxXgTxElYwYyzEWTHhnKwUdIWqXbWM4Mfqe9QGwX/SUhi784kkUlxqQ07pg8m6cXu3BpHOm2SsVl0TdQ==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  },
+  "ut-juliet": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAugZuKLgmvG0vc10gTNjTNhoE9A/wbfMA1suPqnXBXSEQPQm5CFEG4kA/ZAZ8WSIHrpl4LqTK8khW+jFDMAtbXNiO1vcHIQwcXERv8DTFtIUfw9L8wEM79vS9Lg5yvAw45ZjzNsgZzEbJJmDgydtpV1cgVORfFDN9aHETPwVOlmI06/ST2cTp8h2TyNE4bfn3c+ragu0Xoipze5yPLX3Jocm/WNaLO5MrWA93p+tAc0Zom7g6IINRo4MJzeRyqfTuJIzYMQttWnUjJqK3lOQ0up9FpFD1hjvlNz/I5ob4HvdJWD6UbzB6Jy1MCaLRVR8ozvftJei7sAxCmPCabAkdYQIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECw7oZzebRDs9KvnHkn/ou1SWBAcyBc53oK89wx/yMnv9jc0d/sA4M30OHKqqiW/hCw7bVlvdBqxR1+bg9onpDg==",
+    "ultima_atualizacao": "2026-06-08T22:58:26Z"
+  },
+  "ut-zulu": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArBYxyR0UZaRA3UdTcg3hwZVp1HGDDOG1W4kWJq/crigoD+OAqCPseRr2rj0K25TBvpEH9i9q/XEtD1DiYSdb9oOQj000il4j5rc6ZLY+l+J1snLXWExwZFWvAjLFNaaOZCcZ+z0d/nF20/6vVIu7AOqxWlzYACLRUaF6VFSdks89yXGJANmhpoMe8KA5KRpNdL7tKm+wucRigMGmY6bDEObttOd+N1fm3n6Csk9Q5padhzG7pRGS1ugJF8Gvt/OzqwfaBnZVlT4+gLIDGYl5jNClakXR9k8sYnT/5rUn9HyOBIW4m6OUWhdB4O1WhNlruODegby7KK/uxj3sl+X6sQIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+oP8z0BwfmiWD3vwZ6psL9iMUFTbXuBjRMP7xGAcwi09ssc8zrcum2C/5eH0EcQ5VSgorVWmyK8kj/BYKKY3eA==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  },
+  "ut-teste": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyT/aPmSwpJegCYmukeT2MbZ6HhBq0z/bmhjuaGHJsh1Qgq6qXCPYln5TgMuflS6iEiQud89a4UhMyNWqmSCv9WftZYpRWxXttV2dCroZ5TIpwdNmR3QHHEnXE5I9dKdMmPmkVedtYx3muzeOGsZ9j/9bt487QtjYWu0zO4CfdvQI8fNx1jIW+17/4awQZkNqqPirdVvshuqrpiWmSwN5/8XJrQzrx5v5OHB75lxmrnafAObJ/P14Kpj54wBLBhzzmt07Y/7+zhUOg6pyDRFOzvNe6zOpRUHpQW1zTvbXMkMcNI/yfvTRCwFLV/MXTgnM83h6wyVds8+XoQ3tVUNEcwIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEK2R/BQSWLpHd+z0bzj9ZEnX7+GMHiDICkJEhk2c1zCoN3lIDU71hMSdSO97/tAFf9O7jNkoEU68j3GjphgjI6A==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  },
+  "ut-mike": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkE2iYNVkgMCxojY5H3xNFlg7udRtOagobkWtpt4eN3Z/mNGh6ZJQL9dBy2Z9Po6wwxN+J4+eKgCFWvs9NCXAxHSzzBvXZjQZgwhasAn04Etbj4yVeBbS3LQZbXlkx6sazwdpq5yzPRAQrObvUYpP6BRiQi0HoFx8VvSq3q244wHdLjcauAWIuzGYhprmkz5EjT1ZPwZardWXRw2tXWASNbS9MU8yasski58wcJPkHc1nPGcJROmYSalslKOJSnPMOYz679hxpQeclhYusQWS7M7Mx40aeOa6uIRSF39wgLVDQM45fk3hEVwWx+bazy+rCAPkbnbwoWSVcrLwQfDs/wIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAElocgkCwz2ZMfGgtXUofrrQ8BIYxUee12one/o5CQ9S1eaq5TUwFP7FRH9kXOkX+eyRGZVuyHhIfE0ZkjZFK99g==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  },
+  "ut-delta": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArXrIfEi83IOdetVyDakwU9PFFMdij/wSctRDK5HoE8uX+28W21KmmCtPPOMWZ96D6lmwdXWITvxmnoydSCWCGPf1GGb8Srf26C43IQozcLyvUxlfv4Z2lAhjFRk0Yv6REwHt03NEGtmJ+kV3ArUCtV0rMe/1el3BQejzk2gEuk2GHulZyDtGqpdZ3dPm3d75jVrPL8DPYMdGy3lmF7eU8d0aBS2cCXqt6kv5IcdA6PsFdKBKC4JfcgqRj1X9o8HVikOi+yjsbdBniNDNLoCK1f6pjHMf46hKI+YAwJ0kdT7BM7W/cXUzUYardlUK5I1uW8/faEv3ndGZX+VxGJuLBwIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERnIBgLhbvNDBao124Io3bH6Dubjq/KVJb6awskBUr3trq7qIwF7xK7eHEJ2MWz5jLtA8k2ohujtECPhKvlwM+Q==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  },
+  "ut-bravo": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5/K0JpQ0l2unb22lzSlzmHIx1mkTZxMlQ0vP1JQf47nH+gfQuWearAAlPJtA2WamGv9ddLD/HMmylX2x53tFC2lvOwBvENLc4l3u9VqTSa2UNWmS9dW+DSqfokIKYI8drLGYdo3M0qm5Fwivb8I4N5MjpmU+90suwDzlYC7ZFrTwsUAeQNojpR95xAgr+rmWnMyMkcPklis91/zS3g4Ta2OclVpcyN7kRTCoLNz40pSl4ZjYl5vPH2EfuctN/AtQsDa9aCrsSQwExKHgLHeVQ5VewFrJPz8iSH4o/MAs9areH40VoSCrWSUh7lJMaALtgLWBJpFknISHuv79DYj/5QIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHN8HVenV54c2XfX/tDtb0yv6HG1CqUk/i0+mS8gXy2x6HmncZJfa0D2y7KaplWWxtHYHaqvbgqymgVKRpmcdsA==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  },
+  "ut-echo": {
+    "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp7VjmVDFekFe5BM+LPJXwW19bMeWhfKfKGj21rUZEzsgGw5S0faJo8MmnLToCSrgOXc4qguldUl1YT+4/m2gdhtVDCcrBYBnfmt0YjYtyVbDrYN2eR82fUa9Ui7M2xGIqdR6dP9ecEYzc4iCNrxk/eeXz3X2z4PulJD4YSmIC9R/3VZR9Yq06qzAf3G2xrXOYlbCtNBoAIZIECBH70eXbSrGbL2VpdkgWZDnD8Nam/1IbTcxpHOxYEphteV3iW+okJx2SldalGmllMlJD6N+T/LkzzOaAspQfT79yD9W0DGwrYpv71bT8uMQkA+subjDh/dKJ61/04fpihkyIZ8OQQIDAQAB",
+    "chave_publica_ecdsa": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfFkPA+FwEXZAQs8aM6jx36Sgp77ptzlUI6bl0o1kkDNbSrg2o3zuRwCdhfL63aRVHi22LxQCgZ1qqU/Sjcj2lQ==",
+    "ultima_atualizacao": "2026-06-08T22:52:01Z"
+  }
+}

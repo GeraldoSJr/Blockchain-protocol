@@ -119,6 +119,7 @@ class GerenciadorChaves:
 
     def adicionar_chave_confiavel(self, id_unidade: str, rsa_publica_b64: str, ecdsa_publica_b64: str):
         """Adiciona ou atualiza chave de uma unidade confiável."""
+        id_unidade = id_unidade.lower()
         if id_unidade in self.unidades_revogadas:
             logger.warning(f"⛔ Tentativa de adicionar chave de unidade revogada: {id_unidade}")
             return
@@ -133,6 +134,7 @@ class GerenciadorChaves:
 
     def obter_chave_publica_rsa(self, id_unidade: str):
         """Retorna objeto de chave pública RSA ou None se não encontrada/revogada."""
+        id_unidade = id_unidade.lower()
         if id_unidade in self.unidades_revogadas:
             logger.warning(f"⛔ Unidade revogada: {id_unidade}")
             return None
@@ -147,6 +149,7 @@ class GerenciadorChaves:
 
     def obter_chave_publica_ecdsa(self, id_unidade: str):
         """Retorna objeto de chave pública ECDSA ou None se não encontrada/revogada."""
+        id_unidade = id_unidade.lower()
         if id_unidade in self.unidades_revogadas:
             logger.warning(f"⛔ Unidade revogada: {id_unidade}")
             return None
@@ -190,6 +193,7 @@ class GerenciadorChaves:
 
     def revogar_unidade(self, id_unidade: str):
         """Adiciona unidade à lista de revogação e remove suas chaves."""
+        id_unidade = id_unidade.lower()
         self.unidades_revogadas.add(id_unidade)
         # Remove completamente da lista de confiança
         if id_unidade in self.chaves_confiaveis:
@@ -199,6 +203,7 @@ class GerenciadorChaves:
         logger.warning(f"🚫 Unidade {id_unidade} REVOGADA. Comunicações futuras serão bloqueadas.")
 
     def esta_revogada(self, id_unidade: str) -> bool:
+        id_unidade = id_unidade.lower()
         return id_unidade in self.unidades_revogadas
 
     def listar_revogadas(self) -> list:

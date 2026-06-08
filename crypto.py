@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 from datetime import datetime, timezone
+from typing import Optional
 
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa, ec, padding
@@ -183,32 +184,30 @@ def empacotar_mensagem(
     chave_publica_rsa_destinatario,
     chave_privada_ecdsa_remetente,
     id_remetente: str,
+    cmd: Optional[str] = None,
 ) -> str:
     """
     Cria o pacote de mensagem segura conforme o protocolo Cripto-Sentinela.
 
     Passos:
-      1. Hash SHA-256 da mensagem original
+      1. Mensagem original em bytes UTF-8
       2. AES-256-GCM da mensagem
       3. RSA-OAEP da chave de sessão
-      4. ECDSA sobre o hash SHA-256 da mensagem
+      4. ECDSA-SHA256 sobre a mensagem original
     
     Retorna JSON string pronto para publicar no MQTT.
     """
     msg_bytes = plaintext.encode("utf-8")
 
-    # 1. Hash da mensagem original
-    hash_msg = sha256(msg_bytes)
-
-    # 2. Gera chave de sessão e cifra a mensagem
+    # 1/2. Gera chave de sessão e cifra a mensagem
     chave_sessao = os.urandom(32)  # AES-256
     ciphertext, tag, nonce = cifrar_aes_gcm(chave_sessao, msg_bytes)
 
     # 3. Cifra a chave de sessão com RSA do destinatário
     chave_sessao_cifrada = cifrar_chave_rsa(chave_publica_rsa_destinatario, chave_sessao)
 
-    # 4. Assina o hash SHA-256 da mensagem com ECDSA
-    assinatura = assinar_ecdsa(chave_privada_ecdsa_remetente, hash_msg)
+    # 4. Assina a mensagem original com ECDSA-SHA256
+    assinatura = assinar_ecdsa(chave_privada_ecdsa_remetente, msg_bytes)
 
     pacote = {
         "id_unidade": id_remetente,
@@ -218,6 +217,8 @@ def empacotar_mensagem(
         "chave_sessao_cifrada_b64": base64.b64encode(chave_sessao_cifrada).decode(),
         "assinatura_b64": base64.b64encode(assinatura).decode(),
     }
+    if cmd is not None:
+        pacote["cmd"] = cmd
     return json.dumps(pacote)
 
 
@@ -240,7 +241,7 @@ def desempacotar_mensagem(
       2. Decifra chave de sessão com RSA privado
       3. Decifra mensagem com AES-GCM (verifica tag automaticamente)
       4. Obtém chave pública ECDSA do remetente
-      5. Verifica assinatura ECDSA sobre SHA-256 da mensagem
+      5. Verifica assinatura ECDSA-SHA256 sobre a mensagem decifrada
     """
     try:
         pacote = json.loads(payload_json)
@@ -288,9 +289,13 @@ def desempacotar_mensagem(
             "id_remetente": id_remetente,
         }
 
-    # Passo 5: Verifica assinatura ECDSA
-    hash_msg = sha256(plaintext_bytes)
-    if not verificar_assinatura_ecdsa(chave_publica_ecdsa, hash_msg, assinatura):
+    # Passo 5: Verifica assinatura ECDSA.
+    # Aceita também o formato legado que assinava sha256(plaintext).
+    assinatura_valida = verificar_assinatura_ecdsa(chave_publica_ecdsa, plaintext_bytes, assinatura)
+    if not assinatura_valida:
+        assinatura_valida = verificar_assinatura_ecdsa(chave_publica_ecdsa, sha256(plaintext_bytes), assinatura)
+
+    if not assinatura_valida:
         return {
             "sucesso": False,
             "erro": f"Assinatura ECDSA inválida! Mensagem de '{id_remetente}' pode ser forjada pela Sombra!",
@@ -301,6 +306,7 @@ def desempacotar_mensagem(
         "sucesso": True,
         "mensagem": plaintext,
         "id_remetente": id_remetente,
+        "cmd": pacote.get("cmd"),
     }
 
 
@@ -323,8 +329,8 @@ def criar_pacote_revogacao(
         "timestamp": timestamp,
     }
     msg_json = json.dumps(mensagem_revogacao, separators=(",", ":"))
-    hash_msg = sha256(msg_json.encode("utf-8"))
-    assinatura = assinar_ecdsa(chave_privada_ecdsa_remetente, hash_msg)
+    msg_bytes = msg_json.encode("utf-8")
+    assinatura = assinar_ecdsa(chave_privada_ecdsa_remetente, msg_bytes)
 
     pacote = {
         "remetente": id_remetente,
@@ -368,9 +374,13 @@ def validar_pacote_revogacao(
         return {"sucesso": False, "erro": f"Base64 inválido na assinatura: {e}", "remetente": remetente}
 
     msg_json = json.dumps(revogacao, separators=(",", ":"))
-    hash_msg = sha256(msg_json.encode("utf-8"))
+    msg_bytes = msg_json.encode("utf-8")
 
-    if not verificar_assinatura_ecdsa(chave_publica_ecdsa, hash_msg, assinatura):
+    assinatura_valida = verificar_assinatura_ecdsa(chave_publica_ecdsa, msg_bytes, assinatura)
+    if not assinatura_valida:
+        assinatura_valida = verificar_assinatura_ecdsa(chave_publica_ecdsa, sha256(msg_bytes), assinatura)
+
+    if not assinatura_valida:
         return {
             "sucesso": False,
             "erro": f"Assinatura de revogação inválida de '{remetente}'! Possível ataque da Sombra.",

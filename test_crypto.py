@@ -118,10 +118,10 @@ def test_hashing():
 # ──────────────────────────────────────────────────────────
 def test_ecdsa():
     _secao("4. Assinatura e Verificação ECDSA")
-    from crypto import gerar_chaves_ecdsa, assinar_ecdsa, verificar_assinatura_ecdsa, sha256_str
+    from crypto import gerar_chaves_ecdsa, assinar_ecdsa, verificar_assinatura_ecdsa
 
     priv, pub = gerar_chaves_ecdsa()
-    dados = sha256_str("Ordem de combate UT-Bravo")
+    dados = "Ordem de combate UT-Bravo".encode("utf-8")
 
     assinatura = assinar_ecdsa(priv, dados)
     assert isinstance(assinatura, bytes) and len(assinatura) > 0
@@ -132,7 +132,7 @@ def test_ecdsa():
     _ok("Verificação ECDSA: assinatura válida — OK")
 
     # Verificação inválida (dados adulterados)
-    dados_adulterados = sha256_str("Ordem adulterada pela Sombra!")
+    dados_adulterados = "Ordem adulterada pela Sombra!".encode("utf-8")
     assert not verificar_assinatura_ecdsa(pub, dados_adulterados, assinatura)
     _ok("Verificação ECDSA: dados adulterados detectados — OK")
 
@@ -222,6 +222,7 @@ def test_mensagem_completa():
     from crypto import (
         gerar_chaves_rsa, gerar_chaves_ecdsa,
         empacotar_mensagem, desempacotar_mensagem,
+        assinar_ecdsa, sha256,
     )
 
     # Simula dois participantes: UT-Alfa (remetente) e UT-Bravo (receptor)
@@ -239,6 +240,7 @@ def test_mensagem_completa():
         chave_publica_rsa_destinatario=pub_rsa_bravo,
         chave_privada_ecdsa_remetente=priv_ec_alfa,
         id_remetente="ut-alfa",
+        cmd="resposta",
     )
     payload_dict = json.loads(payload)
     campos_obrigatorios = [
@@ -247,6 +249,7 @@ def test_mensagem_completa():
     ]
     for campo in campos_obrigatorios:
         assert campo in payload_dict, f"Campo ausente: {campo}"
+    assert payload_dict["cmd"] == "resposta"
     _ok(f"Pacote gerado com todos os {len(campos_obrigatorios)} campos obrigatórios")
 
     # Bravo desempacota
@@ -261,8 +264,23 @@ def test_mensagem_completa():
     assert resultado["sucesso"], f"Falha inesperada: {resultado.get('erro')}"
     assert resultado["mensagem"] == mensagem_original
     assert resultado["id_remetente"] == "ut-alfa"
+    assert resultado["cmd"] == "resposta"
     _ok("Desempacotamento e validação completa — OK")
     _ok(f"Mensagem recuperada: '{resultado['mensagem'][:50]}...'")
+
+    # Compatibilidade com pacotes antigos que assinavam sha256(plaintext)
+    assinatura_legada = assinar_ecdsa(priv_ec_alfa, sha256(mensagem_original.encode("utf-8")))
+    payload_legado = json.dumps({
+        **payload_dict,
+        "assinatura_b64": base64.b64encode(assinatura_legada).decode(),
+    })
+    resultado_legado = desempacotar_mensagem(
+        payload_json=payload_legado,
+        chave_privada_rsa_receptor=priv_rsa_bravo,
+        obter_chave_publica_ecdsa=obter_ecdsa,
+    )
+    assert resultado_legado["sucesso"], f"Falha no pacote legado: {resultado_legado.get('erro')}"
+    _ok("Assinatura legada sobre SHA-256 da mensagem ainda é aceita")
 
     # Chave RSA errada (mensagem destinada a outro)
     resultado2 = desempacotar_mensagem(
@@ -374,6 +392,84 @@ def test_chaves_oraculo():
 
 
 # ──────────────────────────────────────────────────────────
+# 10. Integração com formato do Oráculo
+# ──────────────────────────────────────────────────────────
+def test_formato_oraculo():
+    _secao("10. Formato exigido pelo Oráculo")
+    from crypto import (
+        decifrar_aes_gcm,
+        decifrar_chave_rsa,
+        empacotar_mensagem,
+        gerar_chaves_ecdsa,
+        gerar_chaves_rsa,
+        verificar_assinatura_ecdsa,
+    )
+    from mqtt_client import ClienteMQTT
+
+    publicados = []
+    cliente = ClienteMQTT("UT-Bravo")
+    cliente.conectado = True
+    cliente._publicar = lambda topico, payload, retain=False: publicados.append((topico, json.loads(payload), retain)) or True
+
+    assert cliente.publicar_identidade("rsa", "ecdsa")
+    topico, payload, retain = publicados[-1]
+    assert topico == "sisdef/broadcast/chaves/ut-bravo"
+    assert payload["id_unidade"] == "ut-bravo"
+    assert payload["chave_publica_rsa"] == "rsa"
+    assert payload["chave_publica_ecdsa"] == "ecdsa"
+    assert payload["chave_publica_eddsa"] == "ecdsa"
+    assert retain
+    _ok("Identidade publica campo ECDSA correto e compatibilidade legada")
+
+    assert cliente.enviar_desafio_oraculo()
+    topico, payload, retain = publicados[-1]
+    assert topico == "sisdef/direto/oraculo"
+    assert payload == {"id_unidade": "ut-bravo", "cmd": "desafio"}
+    assert not retain
+    _ok("Comando cmd=desafio formatado corretamente")
+
+    assert cliente.atualizar_notas_oraculo()
+    topico, payload, retain = publicados[-1]
+    assert topico == "sisdef/broadcast/notas"
+    assert payload == {"cmd": "atualizar_notas"}
+    assert not retain
+    _ok("Comando de atualização de notas formatado corretamente")
+
+    # Simula o pacote final que o Oráculo receberá ao responder o desafio.
+    priv_rsa_oraculo, pub_rsa_oraculo = gerar_chaves_rsa()
+    priv_ecdsa_ut, pub_ecdsa_ut = gerar_chaves_ecdsa()
+    resposta = "12"
+    pacote_json = empacotar_mensagem(
+        plaintext=resposta,
+        chave_publica_rsa_destinatario=pub_rsa_oraculo,
+        chave_privada_ecdsa_remetente=priv_ecdsa_ut,
+        id_remetente="ut-bravo",
+        cmd="resposta",
+    )
+    pacote = json.loads(pacote_json)
+    assert pacote["id_unidade"] == "ut-bravo"
+    assert pacote["cmd"] == "resposta"
+
+    chave_sessao = decifrar_chave_rsa(
+        priv_rsa_oraculo,
+        base64.b64decode(pacote["chave_sessao_cifrada_b64"]),
+    )
+    plaintext = decifrar_aes_gcm(
+        chave_sessao,
+        base64.b64decode(pacote["ciphertext_b64"]),
+        base64.b64decode(pacote["tag_autenticacao_b64"]),
+        base64.b64decode(pacote["nonce_b64"]),
+    )
+    assinatura = base64.b64decode(pacote["assinatura_b64"])
+    assert plaintext == b"12"
+    assert plaintext != b'{"resposta":"12"}'
+    assert verificar_assinatura_ecdsa(pub_ecdsa_ut, plaintext, assinatura)
+    _ok("Resposta ao desafio cifra somente a string numérica e inclui cmd=resposta")
+
+    return True
+
+
+# ──────────────────────────────────────────────────────────
 # Runner
 # ──────────────────────────────────────────────────────────
 
@@ -387,6 +483,7 @@ TESTES = [
     test_mensagem_completa,
     test_revogacao,
     test_chaves_oraculo,
+    test_formato_oraculo,
 ]
 
 

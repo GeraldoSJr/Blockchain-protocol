@@ -44,6 +44,10 @@ AJUDA = """
 │ id / identidade        │ Publica identidade no CCU (IFF)    │
 │ enviar <UT> <msg>      │ Envia mensagem segura              │
 │ eco                    │ Envia eco ao Oráculo               │
+│ desafio                │ Solicita desafio ao Oráculo        │
+│ resposta <numero>      │ Envia resposta ao desafio          │
+│ pergunta               │ Mostra última pergunta recebida    │
+│ notas                  │ Atualiza/mostra placar do Oráculo  │
 │ revogar <UT>           │ Revoga unidade comprometida        │
 │ chaves                 │ Lista UTs com chaves registradas   │
 │ revogadas              │ Lista unidades revogadas           │
@@ -135,6 +139,46 @@ def main():
                     print("✅ Eco enviado! Aguarde resposta no canal direto...")
                 else:
                     print("❌ Falha ao enviar eco.")
+
+            # ── desafio (oráculo) ────────────────────
+            elif cmd == "desafio":
+                print("📡 Solicitando desafio ao Oráculo...")
+                if ut.solicitar_desafio_oraculo():
+                    print("✅ Desafio solicitado! Aguarde a pergunta no canal direto...")
+                else:
+                    print("❌ Falha ao solicitar desafio.")
+
+            # ── resposta (oráculo) ────────────────────
+            elif cmd == "resposta":
+                if len(partes) < 2:
+                    print("❌ Uso: resposta <numero>")
+                    continue
+                resposta = entrada.split(maxsplit=1)[1].strip()
+                print("📤 Enviando resposta ao Oráculo...")
+                if ut.responder_desafio_oraculo(resposta):
+                    print("✅ Resposta enviada ao Oráculo!")
+                else:
+                    print("❌ Falha ao enviar resposta.")
+
+            # ── pergunta recebida ─────────────────────
+            elif cmd == "pergunta":
+                pergunta = ut.obter_ultima_pergunta_oraculo()
+                if pergunta:
+                    print(f"\n📜 Última pergunta do Oráculo:\n  {pergunta}\n")
+                else:
+                    print("ℹ️  Nenhuma pergunta do Oráculo foi decifrada ainda.")
+
+            # ── notas (oráculo) ───────────────────────
+            elif cmd == "notas":
+                print("📊 Solicitando atualização do placar...")
+                if ut.atualizar_notas_oraculo():
+                    print("✅ Solicitação enviada. Aguarde o placar no tópico público...")
+                    time.sleep(1)
+                else:
+                    print("❌ Falha ao solicitar notas.")
+                placar = ut.obter_ultimo_placar()
+                if placar:
+                    print(f"\n📊 Último placar recebido:\n{placar}\n")
 
             # ── revogar ─────────────────────────────
             elif cmd == "revogar":

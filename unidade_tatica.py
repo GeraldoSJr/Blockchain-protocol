@@ -5,9 +5,11 @@ Unidade Tática: orquestrador principal do protocolo de comunicação segura.
 
 import json
 import logging
+import re
 import threading
 import time
 from datetime import datetime, timezone
+from typing import Optional
 
 from crypto import (
     criar_pacote_revogacao,
@@ -56,11 +58,14 @@ class UnidadeTatica:
         self.gerenciador = GerenciadorChaves()
         self.mqtt = ClienteMQTT(ID_UNIDADE)
         self._log_seguranca: list = []
+        self._ultima_pergunta_oraculo: Optional[str] = None
+        self._ultimo_placar: Optional[dict] = None
 
         # Injeta callbacks MQTT
         self.mqtt.on_chaves_recebidas = self._processar_chaves_recebidas
         self.mqtt.on_mensagem_recebida = self._processar_mensagem_recebida
         self.mqtt.on_revogacao_recebida = self._processar_revogacao_recebida
+        self.mqtt.on_notas_recebidas = self._processar_notas_recebidas
 
         # Pré-carrega chaves do Oráculo
         self._registrar_oraculo()
@@ -124,6 +129,10 @@ class UnidadeTatica:
           - Chave pública RSA do destinatário deve estar registrada
           - Mensagem será cifrada com AES-256-GCM e assinada com ECDSA
         """
+        return self._enviar_mensagem_segura(destinatario, conteudo)
+
+    def _enviar_mensagem_segura(self, destinatario: str, conteudo: str, cmd: Optional[str] = None) -> bool:
+        """Envia uma mensagem segura, com comando opcional no envelope externo."""
         destinatario = destinatario.lower()
 
         if self.gerenciador.esta_revogada(destinatario):
@@ -142,6 +151,7 @@ class UnidadeTatica:
                 chave_publica_rsa_destinatario=chave_rsa_dest,
                 chave_privada_ecdsa_remetente=self.gerenciador.chave_privada_ecdsa,
                 id_remetente=self.id_unidade,
+                cmd=cmd,
             )
         except Exception as e:
             logger.error(f"❌ Erro ao empacotar mensagem: {e}")
@@ -149,7 +159,8 @@ class UnidadeTatica:
 
         resultado = self.mqtt.enviar_mensagem(destinatario, payload_json)
         if resultado:
-            self._log(f"📤 Mensagem enviada para {destinatario}: {conteudo[:50]}...")
+            prefixo = f" ({cmd})" if cmd else ""
+            self._log(f"📤 Mensagem{prefixo} enviada para {destinatario}: {conteudo[:50]}...")
         return resultado
 
     # ─────────────────────────────────────────────
@@ -182,24 +193,28 @@ class UnidadeTatica:
         if resultado["sucesso"]:
             remetente = resultado["id_remetente"]
             mensagem = resultado["mensagem"]
+            cmd = resultado.get("cmd")
             logger.info(f"✅ Mensagem AUTÊNTICA e ÍNTEGRA de '{remetente}':")
             logger.info(f"   📜 Conteúdo: {mensagem}")
             self._log(f"✅ Recebida de {remetente}: {mensagem[:80]}")
+            if remetente == "oraculo" and cmd in (None, "desafio", "echo"):
+                self._ultima_pergunta_oraculo = mensagem
         else:
             erro = resultado.get("erro", "Erro desconhecido")
             remetente = resultado.get("id_remetente", "desconhecido")
             logger.error(f"❌ Falha na validação da mensagem de '{remetente}': {erro}")
             self._log(f"❌ FALHA de {remetente}: {erro}")
 
-            # Reporta ao Oráculo se a validação falhar
-            self._reportar_falha_oraculo(remetente, erro)
+            # Não reporta automaticamente ao Oráculo: mensagens fora do formato do desafio
+            # podem gerar penalidade no placar.
 
         logger.info(f"{'─'*50}\n")
 
     def _processar_chaves_recebidas(self, id_origem: str, dados: dict):
         """Processa publicação de identidade de outra UT."""
+        id_origem = id_origem.lower()
         rsa_b64 = dados.get("chave_publica_rsa")
-        ecdsa_b64 = dados.get("chave_publica_eddsa")  # campo do protocolo
+        ecdsa_b64 = dados.get("chave_publica_ecdsa") or dados.get("chave_publica_eddsa")
 
         if not rsa_b64 or not ecdsa_b64:
             logger.warning(f"⚠️  Chaves de '{id_origem}' malformadas (campos ausentes).")
@@ -207,6 +222,21 @@ class UnidadeTatica:
 
         self.gerenciador.adicionar_chave_confiavel(id_origem, rsa_b64, ecdsa_b64)
         logger.info(f"🔑 Chaves de '{id_origem}' registradas com sucesso.")
+
+    def _processar_notas_recebidas(self, payload_str: str):
+        """Processa placar público emitido pelo Oráculo."""
+        try:
+            dados = json.loads(payload_str)
+        except json.JSONDecodeError:
+            logger.warning("⚠️  Placar do Oráculo não está em JSON válido.")
+            return
+
+        if dados.get("cmd") == "atualizar_notas":
+            return
+
+        self._ultimo_placar = dados
+        logger.info(f"📊 Placar do Oráculo recebido: {json.dumps(dados, ensure_ascii=False)}")
+        self._log("📊 Placar do Oráculo atualizado.")
 
     def _processar_revogacao_recebida(self, payload_str: str):
         """Processa e aplica ordem de revogação."""
@@ -276,6 +306,34 @@ class UnidadeTatica:
         """
         return self.mqtt.enviar_eco_oraculo()
 
+    def solicitar_desafio_oraculo(self) -> bool:
+        """
+        Solicita uma nova pergunta ao Oráculo.
+        """
+        return self.mqtt.enviar_desafio_oraculo()
+
+    def responder_desafio_oraculo(self, resposta: str) -> bool:
+        """
+        Envia ao Oráculo apenas a string da resposta, cifrada e assinada,
+        com o campo externo cmd=resposta exigido pelo desafio.
+        """
+        resposta = resposta.strip()
+        if not resposta:
+            logger.error("❌ Resposta vazia não pode ser enviada ao Oráculo.")
+            return False
+        if not re.fullmatch(r"[+-]?\d+(?:[.,]\d+)?", resposta):
+            logger.error(
+                "❌ Resposta inválida: envie apenas o número, sem JSON, texto adicional ou unidades."
+            )
+            return False
+        return self._enviar_mensagem_segura("oraculo", resposta, cmd="resposta")
+
+    def atualizar_notas_oraculo(self) -> bool:
+        """
+        Solicita atualização do placar público do Oráculo.
+        """
+        return self.mqtt.atualizar_notas_oraculo()
+
     def _reportar_falha_oraculo(self, remetente: str, erro: str):
         """Reporta falha de validação ao Oráculo (mensagem cifrada)."""
         try:
@@ -297,6 +355,14 @@ class UnidadeTatica:
     def listar_chaves_confiaveis(self) -> dict:
         """Lista todas as unidades com chaves registradas e não revogadas."""
         return self.gerenciador.listar_chaves_confiaveis()
+
+    def obter_ultima_pergunta_oraculo(self) -> Optional[str]:
+        """Retorna a última pergunta decifrada recebida do Oráculo."""
+        return self._ultima_pergunta_oraculo
+
+    def obter_ultimo_placar(self) -> Optional[dict]:
+        """Retorna o último placar público recebido do Oráculo."""
+        return self._ultimo_placar
 
     def status_conexao_mqtt(self) -> dict:
         """Retorna status atual da conexão MQTT."""

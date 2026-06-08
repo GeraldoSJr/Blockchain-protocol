@@ -20,6 +20,7 @@ PORT = 1883
 TOPICO_CHAVES_BASE = "sisdef/broadcast/chaves"
 TOPICO_DIRETO_BASE = "sisdef/direto"
 TOPICO_REVOGACAO = "sisdef/broadcast/revogacao"
+TOPICO_NOTAS = "sisdef/broadcast/notas"
 
 
 class ClienteMQTT:
@@ -37,6 +38,7 @@ class ClienteMQTT:
         self.on_mensagem_recebida: Optional[Callable[[str, str], None]] = None
         self.on_chaves_recebidas: Optional[Callable[[str, dict], None]] = None
         self.on_revogacao_recebida: Optional[Callable[[str], None]] = None
+        self.on_notas_recebidas: Optional[Callable[[str], None]] = None
 
         self.client.on_connect = self._on_connect
         self.client.on_disconnect = self._on_disconnect
@@ -103,6 +105,10 @@ class ClienteMQTT:
         self.client.subscribe(TOPICO_REVOGACAO)
         logger.info(f"📥 Inscrito: {TOPICO_REVOGACAO}")
 
+        # Placar do Oráculo
+        self.client.subscribe(TOPICO_NOTAS)
+        logger.info(f"📥 Inscrito: {TOPICO_NOTAS}")
+
     # ─────────────────────────────────────────────
     #  Publicações
     # ─────────────────────────────────────────────
@@ -115,6 +121,7 @@ class ClienteMQTT:
         payload = json.dumps({
             "id_unidade": self.id_unidade,
             "chave_publica_rsa": rsa_publica_b64,
+            "chave_publica_ecdsa": ecdsa_publica_b64,
             "chave_publica_eddsa": ecdsa_publica_b64,
         })
         topico = f"{TOPICO_CHAVES_BASE}/{self.id_unidade}"
@@ -146,6 +153,26 @@ class ClienteMQTT:
         topico = f"{TOPICO_DIRETO_BASE}/oraculo"
         logger.info(f"📡 Enviando eco ao Oráculo: {topico}")
         return self._publicar(topico, payload)
+
+    def enviar_desafio_oraculo(self) -> bool:
+        """
+        Solicita novo desafio ao Oráculo.
+        """
+        payload = json.dumps({
+            "id_unidade": self.id_unidade,
+            "cmd": "desafio",
+        })
+        topico = f"{TOPICO_DIRETO_BASE}/oraculo"
+        logger.info(f"📡 Solicitando desafio ao Oráculo: {topico}")
+        return self._publicar(topico, payload)
+
+    def atualizar_notas_oraculo(self) -> bool:
+        """
+        Solicita atualização do placar público mantido pelo Oráculo.
+        """
+        payload = json.dumps({"cmd": "atualizar_notas"})
+        logger.info(f"📊 Solicitando atualização de notas: {TOPICO_NOTAS}")
+        return self._publicar(TOPICO_NOTAS, payload)
 
     def _publicar(self, topico: str, payload: str, retain: bool = False) -> bool:
         if not self.conectado:
@@ -209,6 +236,10 @@ class ClienteMQTT:
         elif topico == TOPICO_REVOGACAO:
             if self.on_revogacao_recebida:
                 self.on_revogacao_recebida(payload_str)
+
+        elif topico == TOPICO_NOTAS:
+            if self.on_notas_recebidas:
+                self.on_notas_recebidas(payload_str)
 
         elif topico == f"{TOPICO_DIRETO_BASE}/{self.id_unidade}":
             if self.on_mensagem_recebida:

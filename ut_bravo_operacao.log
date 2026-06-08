@@ -1,0 +1,263 @@
+19:17:06 [UT-Bravo] ============================================================
+19:17:06 [UT-Bravo]   🪖  INICIANDO UT-BRAVO — Operação Cripto-Sentinela
+19:17:06 [UT-Bravo] ============================================================
+19:17:06 [UT-Bravo.GerenciadorChaves] 🔑 Novas chaves geradas e salvas em disco.
+19:17:06 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:17:06 [UT-Bravo] 🔑 Chaves do Oráculo registradas.
+19:17:06 [UT-Bravo.MQTT] 🔗 Conectando ao broker broker.hivemq.com:1883...
+19:17:08 [UT-Bravo.MQTT] ✅ Conectado: Conexão aceita
+19:17:08 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/direto/ut-bravo
+19:17:08 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/chaves/#
+19:17:08 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/revogacao
+19:17:08 [UT-Bravo.MQTT] ✅ Conectado ao CCU!
+19:17:08 [UT-Bravo] ⚠️  Chaves de 'ut-mike' malformadas (campos ausentes).
+19:17:08 [UT-Bravo] ⚠️  Chaves de 'ut-delta' malformadas (campos ausentes).
+19:17:08 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-charlie adicionadas/atualizadas.
+19:17:08 [UT-Bravo] 🔑 Chaves de 'ut-charlie' registradas com sucesso.
+19:17:08 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-november adicionadas/atualizadas.
+19:17:08 [UT-Bravo] 🔑 Chaves de 'ut-november' registradas com sucesso.
+19:17:08 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-juliet adicionadas/atualizadas.
+19:17:08 [UT-Bravo] 🔑 Chaves de 'ut-juliet' registradas com sucesso.
+19:17:08 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-zulu adicionadas/atualizadas.
+19:17:08 [UT-Bravo] 🔑 Chaves de 'ut-zulu' registradas com sucesso.
+19:17:08 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-teste adicionadas/atualizadas.
+19:17:08 [UT-Bravo] 🔑 Chaves de 'ut-teste' registradas com sucesso.
+19:17:08 [UT-Bravo] ⚠️  Chaves de 'UT-Bravo' malformadas (campos ausentes).
+19:17:08 [UT-Bravo] ⚠️  Chaves de 'oraculo' malformadas (campos ausentes).
+19:17:08 [UT-Bravo] ⚠️  Chaves de 'ut-echo' malformadas (campos ausentes).
+19:17:09 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/chaves/ut-bravo': {"id_unidade": "ut-bravo", "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8...
+19:17:09 [UT-Bravo] 📰 Identidade publicada: sisdef/broadcast/chaves/ut-bravo
+19:19:35 [UT-Bravo.MQTT] 📡 Enviando eco ao Oráculo: sisdef/direto/oraculo
+19:19:35 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/direto/oraculo': {"id_unidade": "ut-bravo", "cmd": "echo"}
+19:19:36 [UT-Bravo] 
+──────────────────────────────────────────────────
+19:19:36 [UT-Bravo] 📨 Mensagem recebida no tópico: sisdef/direto/ut-bravo
+19:19:36 [UT-Bravo] ❌ Falha na validação da mensagem de 'oraculo': Falha ao decifrar chave de sessão (mensagem não era para nós?): Decryption failed
+19:19:41 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/direto/oraculo': {"id_unidade": "ut-bravo", "ciphertext_b64": "6ljPZleV7Obuskup1ixf9iqQfLpMrT8g3p...
+19:19:41 [UT-Bravo] 📡 Falha reportada ao Oráculo.
+19:19:41 [UT-Bravo] ──────────────────────────────────────────────────
+
+19:19:44 [UT-Bravo] ⚠️  Chaves de 'ut-delta' malformadas (campos ausentes).
+19:29:19 [UT-Bravo.MQTT] 🔌 Desconectado do CCU.
+19:29:36 [UT-Bravo] ============================================================
+19:29:36 [UT-Bravo]   🪖  INICIANDO UT-BRAVO — Operação Cripto-Sentinela
+19:29:36 [UT-Bravo] ============================================================
+19:29:36 [UT-Bravo.GerenciadorChaves] ✅ Chaves próprias carregadas do disco.
+19:29:36 [UT-Bravo.GerenciadorChaves] 📂 Chaves confiáveis carregadas: ['oraculo', 'ut-charlie', 'ut-november', 'ut-juliet', 'ut-zulu', 'ut-teste']
+19:29:36 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:29:36 [UT-Bravo] 🔑 Chaves do Oráculo registradas.
+19:29:36 [UT-Bravo.MQTT] 🔗 Conectando ao broker broker.hivemq.com:1883...
+19:29:41 [UT-Bravo.MQTT] ✅ Conectado: Conexão aceita
+19:29:41 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/direto/ut-bravo
+19:29:41 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/chaves/#
+19:29:41 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/revogacao
+19:29:41 [UT-Bravo.MQTT] ✅ Conectado ao CCU!
+19:29:41 [UT-Bravo] ⚠️  Chaves de 'ut-mike' malformadas (campos ausentes).
+19:29:41 [UT-Bravo] ⚠️  Chaves de 'ut-delta' malformadas (campos ausentes).
+19:29:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-charlie adicionadas/atualizadas.
+19:29:41 [UT-Bravo] 🔑 Chaves de 'ut-charlie' registradas com sucesso.
+19:29:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-november adicionadas/atualizadas.
+19:29:41 [UT-Bravo] 🔑 Chaves de 'ut-november' registradas com sucesso.
+19:29:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-juliet adicionadas/atualizadas.
+19:29:41 [UT-Bravo] 🔑 Chaves de 'ut-juliet' registradas com sucesso.
+19:29:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-zulu adicionadas/atualizadas.
+19:29:41 [UT-Bravo] 🔑 Chaves de 'ut-zulu' registradas com sucesso.
+19:29:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-teste adicionadas/atualizadas.
+19:29:41 [UT-Bravo] 🔑 Chaves de 'ut-teste' registradas com sucesso.
+19:29:41 [UT-Bravo] ⚠️  Chaves de 'UT-Bravo' malformadas (campos ausentes).
+19:29:41 [UT-Bravo] ⚠️  Chaves de 'oraculo' malformadas (campos ausentes).
+19:29:41 [UT-Bravo] ⚠️  Chaves de 'ut-echo' malformadas (campos ausentes).
+19:29:42 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/chaves/ut-bravo': {"id_unidade": "ut-bravo", "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8...
+19:29:42 [UT-Bravo] 📰 Identidade publicada: sisdef/broadcast/chaves/ut-bravo
+19:29:44 [UT-Bravo.MQTT] 📡 Enviando eco ao Oráculo: sisdef/direto/oraculo
+19:29:45 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/direto/oraculo': {"id_unidade": "ut-bravo", "cmd": "echo"}
+19:29:45 [UT-Bravo] 
+──────────────────────────────────────────────────
+19:29:45 [UT-Bravo] 📨 Mensagem recebida no tópico: sisdef/direto/ut-bravo
+19:47:32 [UT-Bravo] ============================================================
+19:47:32 [UT-Bravo]   🪖  INICIANDO UT-BRAVO — Operação Cripto-Sentinela
+19:47:32 [UT-Bravo] ============================================================
+19:47:32 [UT-Bravo.GerenciadorChaves] ✅ Chaves próprias carregadas do disco.
+19:47:32 [UT-Bravo.GerenciadorChaves] 📂 Chaves confiáveis carregadas: ['oraculo', 'ut-charlie', 'ut-november', 'ut-juliet', 'ut-zulu', 'ut-teste']
+19:47:32 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:47:32 [UT-Bravo] 🔑 Chaves do Oráculo registradas.
+19:47:32 [UT-Bravo.MQTT] 🔗 Conectando ao broker broker.hivemq.com:1883...
+19:47:34 [UT-Bravo.MQTT] ✅ Conectado: Conexão aceita
+19:47:34 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/direto/ut-bravo
+19:47:34 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/chaves/#
+19:47:34 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/revogacao
+19:47:34 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/notas
+19:47:34 [UT-Bravo.MQTT] ✅ Conectado ao CCU!
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-mike adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-mike' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-delta adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-delta' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-charlie adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-charlie' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-november adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-november' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-juliet adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-juliet' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-zulu adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-zulu' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-teste adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-teste' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-bravo adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-bravo' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'oraculo' registradas com sucesso.
+19:47:34 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-echo adicionadas/atualizadas.
+19:47:34 [UT-Bravo] 🔑 Chaves de 'ut-echo' registradas com sucesso.
+19:47:34 [UT-Bravo] 📊 Placar do Oráculo recebido: {"ut-november": {"nota": 10.0, "erros_de_mensagem": 0, "respostas_corretas": 2, "respostas_incorretas": 0}, "atualizado_em": "2026-06-05T17:49:56.478652"}
+19:47:35 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/chaves/ut-bravo': {"id_unidade": "ut-bravo", "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8...
+19:47:35 [UT-Bravo] 📰 Identidade publicada: sisdef/broadcast/chaves/ut-bravo
+19:47:39 [UT-Bravo.MQTT] 🔌 Desconectado do CCU.
+19:47:39 [UT-Bravo] ============================================================
+19:47:39 [UT-Bravo]   🪖  INICIANDO UT-BRAVO — Operação Cripto-Sentinela
+19:47:39 [UT-Bravo] ============================================================
+19:47:39 [UT-Bravo.GerenciadorChaves] ✅ Chaves próprias carregadas do disco.
+19:47:39 [UT-Bravo.GerenciadorChaves] 📂 Chaves confiáveis carregadas: ['oraculo', 'ut-charlie', 'ut-november', 'ut-juliet', 'ut-zulu', 'ut-teste', 'ut-mike', 'ut-delta', 'ut-bravo', 'ut-echo']
+19:47:39 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:47:39 [UT-Bravo] 🔑 Chaves do Oráculo registradas.
+19:47:39 [UT-Bravo.MQTT] 🔗 Conectando ao broker broker.hivemq.com:1883...
+19:47:41 [UT-Bravo.MQTT] ✅ Conectado: Conexão aceita
+19:47:41 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/direto/ut-bravo
+19:47:41 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/chaves/#
+19:47:41 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/revogacao
+19:47:41 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/notas
+19:47:41 [UT-Bravo.MQTT] ✅ Conectado ao CCU!
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-mike adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-mike' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-delta adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-delta' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-charlie adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-charlie' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-november adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-november' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-juliet adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-juliet' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-zulu adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-zulu' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-teste adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-teste' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-bravo adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-bravo' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'oraculo' registradas com sucesso.
+19:47:41 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-echo adicionadas/atualizadas.
+19:47:41 [UT-Bravo] 🔑 Chaves de 'ut-echo' registradas com sucesso.
+19:47:41 [UT-Bravo] 📊 Placar do Oráculo recebido: {"ut-november": {"nota": 10.0, "erros_de_mensagem": 0, "respostas_corretas": 2, "respostas_incorretas": 0}, "atualizado_em": "2026-06-05T17:49:56.478652"}
+19:47:42 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/chaves/ut-bravo': {"id_unidade": "ut-bravo", "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8...
+19:47:42 [UT-Bravo] 📰 Identidade publicada: sisdef/broadcast/chaves/ut-bravo
+19:47:48 [UT-Bravo.MQTT] 🔌 Desconectado do CCU.
+19:47:51 [UT-Bravo] ============================================================
+19:47:51 [UT-Bravo]   🪖  INICIANDO UT-BRAVO — Operação Cripto-Sentinela
+19:47:51 [UT-Bravo] ============================================================
+19:47:51 [UT-Bravo.GerenciadorChaves] ✅ Chaves próprias carregadas do disco.
+19:47:51 [UT-Bravo.GerenciadorChaves] 📂 Chaves confiáveis carregadas: ['oraculo', 'ut-charlie', 'ut-november', 'ut-juliet', 'ut-zulu', 'ut-teste', 'ut-mike', 'ut-delta', 'ut-bravo', 'ut-echo']
+19:47:51 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:47:51 [UT-Bravo] 🔑 Chaves do Oráculo registradas.
+19:47:51 [UT-Bravo.MQTT] 🔗 Conectando ao broker broker.hivemq.com:1883...
+19:47:52 [UT-Bravo.MQTT] ✅ Conectado: Conexão aceita
+19:47:52 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/direto/ut-bravo
+19:47:52 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/chaves/#
+19:47:52 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/revogacao
+19:47:52 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/notas
+19:47:52 [UT-Bravo.MQTT] ✅ Conectado ao CCU!
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-mike adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-mike' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-delta adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-delta' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-charlie adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-charlie' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-november adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-november' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-juliet adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-juliet' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-zulu adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-zulu' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-teste adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-teste' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-bravo adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-bravo' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'oraculo' registradas com sucesso.
+19:47:53 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-echo adicionadas/atualizadas.
+19:47:53 [UT-Bravo] 🔑 Chaves de 'ut-echo' registradas com sucesso.
+19:47:53 [UT-Bravo] 📊 Placar do Oráculo recebido: {"ut-november": {"nota": 10.0, "erros_de_mensagem": 0, "respostas_corretas": 2, "respostas_incorretas": 0}, "atualizado_em": "2026-06-05T17:49:56.478652"}
+19:47:54 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/chaves/ut-bravo': {"id_unidade": "ut-bravo", "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8...
+19:47:54 [UT-Bravo] 📰 Identidade publicada: sisdef/broadcast/chaves/ut-bravo
+19:48:29 [UT-Bravo.MQTT] 📡 Enviando eco ao Oráculo: sisdef/direto/oraculo
+19:48:29 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/direto/oraculo': {"id_unidade": "ut-bravo", "cmd": "echo"}
+19:48:29 [UT-Bravo] 
+──────────────────────────────────────────────────
+19:48:29 [UT-Bravo] 📨 Mensagem recebida no tópico: sisdef/direto/ut-bravo
+19:48:29 [UT-Bravo] ✅ Mensagem AUTÊNTICA e ÍNTEGRA de 'oraculo':
+19:48:29 [UT-Bravo]    📜 Conteúdo: Ola ut-bravo, o Oraculo esta operante. Hora atual: 19:48:29. Suas chaves foram recebidas com sucesso.
+19:48:29 [UT-Bravo] ──────────────────────────────────────────────────
+
+19:48:58 [UT-Bravo.MQTT] 📊 Solicitando atualização de notas: sisdef/broadcast/notas
+19:48:59 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/notas': {"cmd": "atualizar_notas"}
+19:51:49 [UT-Bravo.MQTT] 🔌 Desconectado do CCU.
+19:51:59 [UT-Bravo] ============================================================
+19:51:59 [UT-Bravo]   🪖  INICIANDO UT-BRAVO — Operação Cripto-Sentinela
+19:51:59 [UT-Bravo] ============================================================
+19:51:59 [UT-Bravo.GerenciadorChaves] ✅ Chaves próprias carregadas do disco.
+19:51:59 [UT-Bravo.GerenciadorChaves] 📂 Chaves confiáveis carregadas: ['oraculo', 'ut-charlie', 'ut-november', 'ut-juliet', 'ut-zulu', 'ut-teste', 'ut-mike', 'ut-delta', 'ut-bravo', 'ut-echo']
+19:51:59 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:51:59 [UT-Bravo] 🔑 Chaves do Oráculo registradas.
+19:51:59 [UT-Bravo.MQTT] 🔗 Conectando ao broker broker.hivemq.com:1883...
+19:52:00 [UT-Bravo.MQTT] ✅ Conectado: Conexão aceita
+19:52:01 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/direto/ut-bravo
+19:52:01 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/chaves/#
+19:52:01 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/revogacao
+19:52:01 [UT-Bravo.MQTT] 📥 Inscrito: sisdef/broadcast/notas
+19:52:01 [UT-Bravo.MQTT] ✅ Conectado ao CCU!
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-mike adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-mike' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-delta adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-delta' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-charlie adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-charlie' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-november adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-november' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-juliet adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-juliet' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-zulu adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-zulu' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-teste adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-teste' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-bravo adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-bravo' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de oraculo adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'oraculo' registradas com sucesso.
+19:52:01 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-echo adicionadas/atualizadas.
+19:52:01 [UT-Bravo] 🔑 Chaves de 'ut-echo' registradas com sucesso.
+19:52:23 [UT-Bravo] 📊 Placar do Oráculo recebido: {"ut-november": {"nota": 10.0, "erros_de_mensagem": 0, "respostas_corretas": 2, "respostas_incorretas": 0}, "atualizado_em": "2026-06-05T17:49:56.478652"}
+19:52:23 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/chaves/ut-bravo': {"id_unidade": "ut-bravo", "chave_publica_rsa": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8...
+19:52:23 [UT-Bravo] 📰 Identidade publicada: sisdef/broadcast/chaves/ut-bravo
+19:52:50 [UT-Bravo.MQTT] 📊 Solicitando atualização de notas: sisdef/broadcast/notas
+19:52:57 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/notas': {"cmd": "atualizar_notas"}
+19:55:05 [UT-Bravo.MQTT] 📡 Enviando eco ao Oráculo: sisdef/direto/oraculo
+19:55:05 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/direto/oraculo': {"id_unidade": "ut-bravo", "cmd": "echo"}
+19:55:05 [UT-Bravo] 
+──────────────────────────────────────────────────
+19:55:05 [UT-Bravo] 📨 Mensagem recebida no tópico: sisdef/direto/ut-bravo
+19:55:05 [UT-Bravo] ✅ Mensagem AUTÊNTICA e ÍNTEGRA de 'oraculo':
+19:55:05 [UT-Bravo]    📜 Conteúdo: Ola ut-bravo, o Oraculo esta operante. Hora atual: 19:55:05. Suas chaves foram recebidas com sucesso.
+19:55:05 [UT-Bravo] ──────────────────────────────────────────────────
+
+19:55:33 [UT-Bravo.MQTT] 📡 Solicitando desafio ao Oráculo: sisdef/direto/oraculo
+19:55:33 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/direto/oraculo': {"id_unidade": "ut-bravo", "cmd": "desafio"}
+19:55:33 [UT-Bravo] 
+──────────────────────────────────────────────────
+19:55:33 [UT-Bravo] 📨 Mensagem recebida no tópico: sisdef/direto/ut-bravo
+19:55:33 [UT-Bravo] ✅ Mensagem AUTÊNTICA e ÍNTEGRA de 'oraculo':
+19:55:33 [UT-Bravo]    📜 Conteúdo: Qual o valor de log2(2147483648)? Responda apenas com o numero.
+19:55:33 [UT-Bravo] ──────────────────────────────────────────────────
+
+19:57:05 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/direto/oraculo': {"id_unidade": "ut-bravo", "ciphertext_b64": "nsI=", "tag_autenticacao_b64": "fG...
+19:58:07 [UT-Bravo.MQTT] 📊 Solicitando atualização de notas: sisdef/broadcast/notas
+19:58:10 [UT-Bravo.MQTT] 📤 Publicado em 'sisdef/broadcast/notas': {"cmd": "atualizar_notas"}
+19:58:26 [UT-Bravo.GerenciadorChaves] ✅ Chaves de ut-juliet adicionadas/atualizadas.
+19:58:26 [UT-Bravo] 🔑 Chaves de 'ut-juliet' registradas com sucesso.

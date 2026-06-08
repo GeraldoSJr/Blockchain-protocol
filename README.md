@@ -14,7 +14,7 @@ Implementação completa do protocolo de comunicação segura para a **UT-Bravo*
 | **Confidencialidade** | AES-256-GCM (chave de sessão efêmera) |
 | **Integridade** | AES-GCM tag + SHA-256 |
 | **Autenticidade** | ECDSA (secp256r1) |
-| **Não-repúdio** | Assinatura ECDSA sobre hash da mensagem |
+| **Não-repúdio** | Assinatura ECDSA-SHA256 da mensagem |
 | **Controle de Acesso** | Lista de revogação persistente + validação de assinatura |
 
 ---
@@ -42,7 +42,7 @@ ut-bravo/
 ## Instalação
 
 ```bash
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
 **Dependências:**
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 ### Modo interativo (CLI)
 
 ```bash
-python main.py
+python3 main.py
 ```
 
 ### Comandos disponíveis
@@ -66,6 +66,10 @@ python main.py
 | `id` / `identidade` | Publica chaves públicas no CCU (IFF) |
 | `enviar <UT> <msg>` | Envia mensagem segura para outra UT |
 | `eco` | Envia comando echo ao Oráculo |
+| `desafio` | Solicita uma pergunta ao Oráculo |
+| `resposta <numero>` | Envia apenas o número cifrado ao desafio ativo |
+| `pergunta` | Mostra a última pergunta decifrada do Oráculo |
+| `notas` | Solicita e mostra o placar público do Oráculo |
 | `revogar <UT>` | Revoga unidade comprometida |
 | `chaves` | Lista UTs com chaves registradas |
 | `revogadas` | Lista unidades revogadas |
@@ -84,6 +88,12 @@ UT-Bravo> enviar ut-alfa Mover para coordenada 22°54'S 43°10'W
 UT-Bravo> eco
 ✅ Eco enviado! Aguarde resposta no canal direto...
 
+UT-Bravo> desafio
+✅ Desafio solicitado! Aguarde a pergunta no canal direto...
+
+UT-Bravo> resposta 12
+✅ Resposta enviada ao Oráculo!
+
 UT-Bravo> revogar ut-charlie
 ⚠️  Confirmar revogação de 'ut-charlie'? (s/N): s
 🚫 Ordem de revogação emitida para ut-charlie!
@@ -92,7 +102,7 @@ UT-Bravo> revogar ut-charlie
 ### Testes unitários
 
 ```bash
-python test_crypto.py
+python3 test_crypto.py
 ```
 
 ---
@@ -107,12 +117,14 @@ python test_crypto.py
 | `sisdef/direto/ut-bravo` | Recepção de mensagens diretas |
 | `sisdef/broadcast/revogacao` | Revogações (broadcast) |
 | `sisdef/direto/oraculo` | Envio ao Oráculo |
+| `sisdef/broadcast/notas` | Placar público do Oráculo |
 
 ### Formato da Mensagem Segura
 
 ```json
 {
   "id_unidade": "ut-bravo",
+  "cmd": "resposta",
   "ciphertext_b64": "Base64(AES-GCM(mensagem))",
   "tag_autenticacao_b64": "Base64(GCM-tag)",
   "nonce_b64": "Base64(nonce-96bits)",
@@ -123,11 +135,12 @@ python test_crypto.py
 
 ### Processo de Envio
 
-1. Calcula SHA-256 da mensagem original
+1. Usa a mensagem original em UTF-8
 2. Gera chave de sessão AES-256 efêmera (32 bytes aleatórios)
 3. Cifra mensagem com AES-256-GCM → `ciphertext`, `tag`, `nonce`
 4. Cifra chave de sessão com RSA-OAEP (chave pública do destinatário)
-5. Assina SHA-256 da mensagem com ECDSA (chave privada do remetente)
+5. Assina a mensagem original com ECDSA-SHA256 (chave privada do remetente)
+6. Inclui `cmd` quando o destinatário/protocolo exigir, como `cmd="resposta"` no Oráculo
 
 ### Processo de Recepção (ordem crítica)
 
@@ -135,7 +148,7 @@ python test_crypto.py
 2. Decifra chave de sessão com RSA-OAEP (chave privada própria)
 3. Decifra mensagem com AES-256-GCM (verifica tag automaticamente)
 4. Obtém chave pública ECDSA do remetente via CCU
-5. Verifica assinatura ECDSA sobre SHA-256 da mensagem decifrada
+5. Verifica assinatura ECDSA-SHA256 sobre a mensagem decifrada
 
 ---
 
@@ -165,11 +178,24 @@ RSA-2048 só consegue cifrar até ~190 bytes diretamente. Além disso, a criptog
 {
   "id_unidade": "ut-bravo",
   "chave_publica_rsa": "MIIBIjAN...",
+  "chave_publica_ecdsa": "MFkwEwYH...",
   "chave_publica_eddsa": "MFkwEwYH..."
 }
 ```
 
 Publicado com `retain=True` no broker HiveMQ para garantir que novas UTs recebam a identidade imediatamente ao se inscreverem.
+O campo `chave_publica_eddsa` é mantido apenas por compatibilidade com mensagens antigas; a chave usada é ECDSA.
+
+## Desafio do Oráculo
+
+Fluxo implementado:
+
+1. `desafio`: publica `{"id_unidade":"ut-bravo","cmd":"desafio"}` em `sisdef/direto/oraculo`.
+2. A pergunta cifrada recebida em `sisdef/direto/ut-bravo` é decifrada e registrada.
+3. `resposta <numero>` cifra apenas a string do número, por exemplo `"12"`, assina com ECDSA e publica em `sisdef/direto/oraculo` com `cmd="resposta"` no envelope externo.
+4. `notas`: publica `{"cmd":"atualizar_notas"}` em `sisdef/broadcast/notas` e registra o placar recebido.
+
+O comando `resposta` rejeita texto adicional, JSON, unidades e respostas vazias para evitar penalidade por formato incorreto. São aceitos números como `12`, `-3`, `2.5` e `2,5`.
 
 ---
 
